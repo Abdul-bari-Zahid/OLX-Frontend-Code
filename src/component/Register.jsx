@@ -44,6 +44,8 @@ export default function Register() {
       <input placeholder="Phone" value={phone} onChange={(e)=>setPhone(e.target.value)} className="border p-2 w-full mb-2"/>
       <input type="password" placeholder="Password" value={password} onChange={(e)=>setPassword(e.target.value)} className="border p-2 w-full mb-2"/>
       <button className="bg-blue-600 text-white w-full py-2" disabled={loading}>Register</button>
+      <p className="mt-1.5">Already have an account <Link to="/login" className="underline">LOGIN</Link></p>
+
     </form>
   );
 }

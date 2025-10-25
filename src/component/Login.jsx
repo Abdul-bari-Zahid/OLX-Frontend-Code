@@ -4,7 +4,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { API } from "../App";
 import { useNavigate } from "react-router-dom";
-
+import { Link } from "react-router-dom";
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -29,6 +29,7 @@ export default function Login() {
       <input type="email" placeholder="Email" value={email} onChange={(e)=>setEmail(e.target.value)} className="border p-2 w-full mb-2"/>
       <input type="password" placeholder="Password" value={password} onChange={(e)=>setPassword(e.target.value)} className="border p-2 w-full mb-2"/>
       <button className="bg-blue-600 text-white w-full py-2">Login</button>
+      <p className="mt-1.5">create an account <Link to="/register" className="underline">REGISTER</Link></p>
     </form>
   );
 }
