@@ -22,7 +22,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { Showproduct } from "./component/Showproduct.jsx";
 
 // API base URL
-export const API = "http://localhost:3002";
+export const API = "https://olx-backend-code.vercel.app/";
 
 function App() {
   return (
