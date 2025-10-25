@@ -5,7 +5,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { API } from "../App";
 import { useNavigate } from "react-router-dom";
-
+import { Link } from "react-router-dom";
 export default function Register() {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
