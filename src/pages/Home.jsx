@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import Searchbar from '../component/Searchbar'
 import CategoryList from '../component/CategoryLisk'
 import Banner from '../component/Banner'
+import BannerImage from '../imagesHome/banner.png'
 import CategorySection from '../component/Categoryinfo'
 import Products from '../component/Products'
 import PriceFilterSidebar from '../component/PriceFilterSidebar'
@@ -59,7 +60,48 @@ const Home = () => {
   return (
     <div>
       <Searchbar setSearch={setSearch} />
-      <CategoryList />
+
+      {/* Hero section under header (left text + CTAs, right image) */}
+      <div className="container mx-auto px-4 py-8">
+        <div className="bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg p-8 text-white flex flex-col md:flex-row items-center">
+          <div className="md:w-2/3">
+            <h1 className="text-4xl md:text-5xl font-extrabold mb-4">Find Your Perfect
+              <span className="text-yellow-300"> Deal Today</span>
+            </h1>
+            <p className="text-lg md:text-xl text-white/90 mb-6">Discover amazing products at unbeatable prices. Buy, sell, and connect with trusted sellers.</p>
+            <div className="flex gap-4 mb-6">
+              <button onClick={() => {}} className="bg-yellow-400 text-black px-5 py-2 rounded font-semibold">Start Shopping</button>
+              <button onClick={() => {}} className="border border-white/50 px-5 py-2 rounded font-semibold">Sell Something</button>
+            </div>
+            <div className="flex gap-8 text-sm mt-4">
+              <div>
+                <div className="text-2xl font-bold">10K+</div>
+                <div className="text-white/80">Happy Customers</div>
+              </div>
+              <div>
+                <div className="text-2xl font-bold">5K+</div>
+                <div className="text-white/80">Active Products</div>
+              </div>
+              <div>
+                <div className="text-2xl font-bold">100+</div>
+                <div className="text-white/80">Categories</div>
+              </div>
+            </div>
+          </div>
+          <div className="md:w-1/3 mt-6 md:mt-0 flex justify-center">
+            <div className="w-64 h-64 bg-white rounded-full flex items-center justify-center shadow-lg">
+              <img src={BannerImage} alt="hero" className="w-40 h-40 object-contain" />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* All Categories Section */}
+      <div className="container mx-auto px-4 py-8">
+        <h2 className="text-2xl font-bold mb-6">All Categories</h2>
+        <CategoryList />
+      </div>
+      
       <PriceFilterSidebar
         open={filterOpen}
         onClose={() => setFilterOpen(false)}
@@ -71,7 +113,7 @@ const Home = () => {
         setSort={setSort}
         onApply={handleApply}
       />
-      <Banner />
+
       <div className="flex justify-end px-4">
         <button
           className="bg-blue-600 text-white px-4 py-2 mt-8 rounded font-semibold mb-4"
@@ -80,7 +122,7 @@ const Home = () => {
           Filter & Sort
         </button>
       </div>
-      <CategorySection />
+
       {notifications.length > 0 && (
         <div className="container mx-auto px-4 py-4">
           <h3 className="font-semibold mb-2">Notifications</h3>
@@ -91,7 +133,7 @@ const Home = () => {
           </ul>
         </div>
       )}
-      <Products search={search} filter={filter} />
+  <Products search={search} filter={filter} title="All Products" />
  
       {/* {showLoginPopup && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">

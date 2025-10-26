@@ -4,6 +4,7 @@ import CategoryList from '../component/CategoryLisk';
 import PriceFilterSidebar from '../component/PriceFilterSidebar';
 import { FaCog } from 'react-icons/fa';
 import axios from 'axios';
+import { API } from '../App';
 const CategoryPage = () => {
   const { slug } = useParams();
   const [products, setProducts] = useState([]);
@@ -15,17 +16,26 @@ const CategoryPage = () => {
   const [categoryName, setCategoryName] = useState('');
 
   useEffect(() => {
-    axios.get('/api/user/products')
+    // Set the category name from slug
+    const catName = slug.replace(/-/g, ' ');
+    setCategoryName(catName.charAt(0).toUpperCase() + catName.slice(1));
+
+    // Fetch products for this category
+    axios.get(`${API}/api/user/products`, {
+      params: {
+        category: catName
+      }
+    })
       .then(res => {
-        // slug se category nikaal lo
-        const catName = slug.replace(/-/g, ' ');
-        setCategoryName(catName.charAt(0).toUpperCase() + catName.slice(1));
-        const filtered = res.data.filter(p =>
-          p.category && p.category.toLowerCase().replace(/\s+/g, '-') === slug
-        );
-        setProducts(filtered);
+        const data = res.data;
+        // Handle both array and paginated response formats
+        const productsData = Array.isArray(data) ? data : data.products || [];
+        setProducts(productsData);
       })
-      .catch(() => setProducts([]));
+      .catch(err => {
+        console.error('Error fetching category products:', err);
+        setProducts([]);
+      });
   }, [slug]);
 
   const handleApply = () => {
@@ -43,8 +53,24 @@ const CategoryPage = () => {
   if (filter.sort === 'high')
     filteredProducts = [...filteredProducts].sort((a, b) => parseInt(b.price) - parseInt(a.price));
 
-  if (!categoryName || products.length === 0)
-    return <div className="text-center py-10">Category not found</div>;
+  if (!categoryName) {
+    return <div className="text-center py-10">Invalid category</div>;
+  }
+  
+  if (products.length === 0) {
+    return (
+      <div className="container mx-auto px-4 py-8">
+        <CategoryList />
+        <h2 className="text-2xl font-bold mb-6">{categoryName}</h2>
+        <div className="text-center py-10">
+          <p className="text-gray-600">No products found in this category</p>
+          <Link to="/" className="text-blue-600 hover:text-blue-800 mt-4 inline-block">
+            Browse all products
+          </Link>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -67,7 +93,11 @@ const CategoryPage = () => {
           >
             <div className="bg-white rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 overflow-hidden border border-gray-200 h-full flex flex-col">
               <img
-                src={product.image || (product.images && product.images[0])}
+                src={
+                                    product.images?.[0]
+                                      ? `${API.replace("/api", "")}/${product.images[0]}`
+                                      : "/no-image.jpg"
+                                  }
                 alt={product.title}
                 className="w-full h-48 object-cover"
               />

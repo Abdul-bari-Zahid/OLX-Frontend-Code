@@ -1,3 +1,4 @@
+import React from 'react';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Provider } from "react-redux";
 import store from "./redux/store";
@@ -19,15 +20,15 @@ import PrivateRoute from "./component/PrivateRoute.jsx";
 
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { Showproduct } from "./component/Showproduct.jsx";
+import Showproduct from "./component/Showproduct.jsx";
 
 // API base URL
-export const API = "https://olx-backend-code.vercel.app/";
+// export const API = "https://olx-backend-code.vercel.app/";
+export const API = "http://localhost:3002"
 
 function App() {
   return (
     <Provider store={store}>
-      {/* <BrowserRouter> */}
         <ToastContainer position="top-right" autoClose={2000} />
         
         {/* Header */}
@@ -36,7 +37,10 @@ function App() {
         {/* Routes */}
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/product/:slug" element={<ProductDetails />} />
+          <Route 
+            path="/product/:id" 
+            element={<ProductDetails />}
+          />
           <Route path="/category/:slug" element={<CategoryPage />} />
           <Route path="/shop" element={<Shop />} />
 
@@ -84,7 +88,6 @@ function App() {
 
         {/* Footer */}
         <Footer />
-      {/* </BrowserRouter> */}
     </Provider>
   );
 }

@@ -19,13 +19,13 @@ export default function Register() {
     e.preventDefault();
     try {
       setLoading(true);
-      const res = await axios.post(`${API}/api/auth/register`, {
+      const res = await axios.post(`${API}/api/auth/register`,{
         firstName,
         lastName,
         email,
         password,
         phone,
-      });
+    } );
       toast.success(res.data.message);
       navigate("/login");
     } catch (err) {
