@@ -24,11 +24,10 @@ const AddProduct = () => {
     const files = Array.from(e.target.files);
     setImages(files);
   };
-
-  // image previews for UI
+ 
   const [previews, setPreviews] = useState([]);
   useEffect(() => {
-    // create object URLs
+    
     const urls = images.map((f) => ({ file: f, url: URL.createObjectURL(f) }));
     setPreviews(urls);
     return () => {
@@ -61,8 +60,7 @@ const AddProduct = () => {
       navigate("/login");
       return;
     }
-
-    // basic validation
+ 
     if (!category) return toast.error('Please select a category');
     if (!name.trim()) return toast.error('Please enter product name');
     if (!description.trim()) return toast.error('Please enter description');
@@ -82,9 +80,8 @@ const AddProduct = () => {
 
     try {
       setSubmitting(true);
-      const token = user?.token || localStorage.getItem('token');
-      // fallback to localhost backend if API constant is missing
-      const base = (typeof API === 'string' && API) ? API : "https://olx-backend-code.vercel.app/";
+      const token = user?.token || localStorage.getItem('token'); 
+      const base = (typeof API === 'string' && API) ? API : "https://olx-backend-code-w2v6.vercel.app";
       const res = await axios.post(`${base}/api/user/product-multi`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
@@ -109,7 +106,6 @@ const AddProduct = () => {
         <p className="text-sm text-gray-500 mb-6">Fill in product details and upload clear photos to attract buyers.</p>
 
         <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {/* Left / main column */}
           <div className="md:col-span-2 space-y-4">
             <div>
               <label className="block font-semibold mb-1">Product Category <span className="text-red-500">*</span></label>
@@ -196,8 +192,7 @@ const AddProduct = () => {
               </div>
             </div>
           </div>
-
-          {/* Right column: images and submit */}
+ 
           <div className="md:col-span-1">
             <div className="border-dashed border-2 border-gray-200 rounded-md p-4 text-center">
               <label className="cursor-pointer inline-block w-full">

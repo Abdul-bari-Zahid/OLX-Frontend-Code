@@ -11,8 +11,7 @@ const MessagesPage = () => {
       user: product?.Posted || "all",
       productTitle: product ? product.title : "iPhone 12 Pro Max 256GB",
       price: product ? product.price : "61,500",
-      number: product ? product.number : "03248667902",
-      // image: product ? product.image : "https://via.placeholder.com/80",
+      number: product ? product.number : "0123456789", 
       image : product.image?.[0]
                       ? `${API.replace("/api", "")}/${product.image[0]}`
                       : "/no-image.jpg",
@@ -38,7 +37,6 @@ console.log(inbox)
 
   return (
     <div className="flex h-screen bg-white">
-      {/* LEFT: INBOX LIST */}
       <div className="w-1/3 border-r">
         <div className="p-3 border-b font-bold">INBOX</div>
         <div className="p-2 text-sm text-gray-600 flex gap-2 border-b">

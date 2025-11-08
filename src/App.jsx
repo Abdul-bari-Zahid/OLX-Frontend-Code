@@ -22,19 +22,17 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Showproduct from "./component/Showproduct.jsx";
 
-// API base URL
-// export const API = "https://olx-backend-code.vercel.app/";
-export const API = "http://localhost:3002"
+
+// export const API = "https://olx-backend-code.vercel.app";
+export const API = "https://olx-backend-code-w2v6.vercel.app"
 
 function App() {
   return (
     <Provider store={store}>
         <ToastContainer position="top-right" autoClose={2000} />
         
-        {/* Header */}
         <Headbar />
 
-        {/* Routes */}
         <Routes>
           <Route path="/" element={<Home />} />
           <Route 
@@ -44,7 +42,6 @@ function App() {
           <Route path="/category/:slug" element={<CategoryPage />} />
           <Route path="/shop" element={<Shop />} />
 
-          {/* Protected Routes */}
           <Route
             path="/add-product"
             element={
@@ -82,11 +79,9 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
 
-          {/* Not Found */}
           <Route path="*" element={<NotFound />} />
         </Routes>
 
-        {/* Footer */}
         <Footer />
     </Provider>
   );

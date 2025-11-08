@@ -15,20 +15,17 @@ const CategoryPage = () => {
   const [filter, setFilter] = useState({ minPrice: '', maxPrice: '', sort: '' });
   const [categoryName, setCategoryName] = useState('');
 
-  useEffect(() => {
-    // Set the category name from slug
+  useEffect(() => { 
     const catName = slug.replace(/-/g, ' ');
     setCategoryName(catName.charAt(0).toUpperCase() + catName.slice(1));
-
-    // Fetch products for this category
+ 
     axios.get(`${API}/api/user/products`, {
       params: {
         category: catName
       }
     })
       .then(res => {
-        const data = res.data;
-        // Handle both array and paginated response formats
+        const data = res.data; 
         const productsData = Array.isArray(data) ? data : data.products || [];
         setProducts(productsData);
       })

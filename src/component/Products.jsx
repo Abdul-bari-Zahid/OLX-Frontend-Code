@@ -14,8 +14,7 @@ const Products = ({ search = '', filter = {}, title = 'Latest Products', product
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const fetchPage = async (p = 1, append = false) => {
-    // if initialProducts passed, skip server fetch
+  const fetchPage = async (p = 1, append = false) => { 
     if (initialProducts) return;
     try {
       setLoading(true);
@@ -35,8 +34,7 @@ const Products = ({ search = '', filter = {}, title = 'Latest Products', product
     }
   };
 
-  useEffect(() => {
-    // initial load
+  useEffect(() => { 
     if (!initialProducts) fetchPage(1, false);
   }, [initialProducts]);
 
@@ -54,16 +52,14 @@ const Products = ({ search = '', filter = {}, title = 'Latest Products', product
   if (filter.sort === 'high')
     filtered = [...filtered].sort((a, b) => parseInt(b.price) - parseInt(a.price));
 
-  const handleLoadMore = () => {
-    // append next page
+  const handleLoadMore = () => { 
     if (page < totalPages) {
       const next = page + 1;
       fetchPage(next, true);
     }
   };
 
-  const handleGoToPage = (p) => {
-    // navigate to page p (replace current products)
+  const handleGoToPage = (p) => { 
     fetchPage(p, false);
   };
 
@@ -79,7 +75,6 @@ const Products = ({ search = '', filter = {}, title = 'Latest Products', product
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             {filtered.map((product) => {
               const go = (e) => {
-                // allow middle click / ctrl+click to open new tab
                 if (e.metaKey || e.ctrlKey || e.button === 1) return;
                 e.preventDefault();
                 if (!product._id) return;
@@ -140,10 +135,8 @@ const Products = ({ search = '', filter = {}, title = 'Latest Products', product
               );
             })}
           </div>
-
-          {/* Pagination controls */}
-          <div className="flex items-center justify-center gap-3 mt-8">
-            {/* Page numbers (show limited window) */}
+ 
+          <div className="flex items-center justify-center gap-3 mt-8"> 
             <div className="flex items-center gap-2">
               {Array.from({ length: Math.min(totalPages, 10) }).map((_, idx) => {
                 const p = idx + 1;
@@ -158,8 +151,7 @@ const Products = ({ search = '', filter = {}, title = 'Latest Products', product
                 );
               })}
             </div>
-
-            {/* Load more / Next */}
+ 
             <button
               onClick={handleLoadMore}
               disabled={page >= totalPages}

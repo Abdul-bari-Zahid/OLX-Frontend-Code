@@ -21,13 +21,7 @@ const Home = () => {
   const [showLoginPopup, setShowLoginPopup] = useState(false)
   const [popupVisible, setPopupVisible] = useState(false)
  
-  // useEffect(() => {
-  //   const timer = setTimeout(() => {
-  //     setPopupVisible(true) 
-  //     setTimeout(() => setShowLoginPopup(true), 300)   
-  //   }, 5000)
-  //   return () => clearTimeout(timer)  
-  // }, [])
+
 
   const closeLoginPopup = () => {
     setPopupVisible(false)  
@@ -45,8 +39,7 @@ const Home = () => {
         const res = await axios.get(`${API}/api/user/me`, { headers: { Authorization: `Bearer ${user.token}` } })
         if (!mounted) return
         setNotifications(res.data.notifications || [])
-      }catch(err){
-        // ignore
+      }catch(err){ 
       }
     })()
     return ()=>{ mounted = false }
@@ -60,8 +53,7 @@ const Home = () => {
   return (
     <div>
       <Searchbar setSearch={setSearch} />
-
-      {/* Hero section under header (left text + CTAs, right image) */}
+ 
       <div className="container mx-auto px-4 py-8">
         <div className="bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg p-8 text-white flex flex-col md:flex-row items-center">
           <div className="md:w-2/3">
@@ -95,8 +87,7 @@ const Home = () => {
           </div>
         </div>
       </div>
-
-      {/* All Categories Section */}
+ 
       <div className="container mx-auto px-4 py-8">
         <h2 className="text-2xl font-bold mb-6">All Categories</h2>
         <CategoryList />
@@ -135,23 +126,6 @@ const Home = () => {
       )}
   <Products search={search} filter={filter} title="All Products" />
  
-      {/* {showLoginPopup && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div
-            className={`relative bg-white rounded-lg shadow-lg p-6 w-96 transition-transform duration-300 ${
-              popupVisible ? 'scale-100 opacity-100' : 'scale-75 opacity-0'
-            }`}
-          >
-            <LoginPage />  
-            <button
-              className="absolute top-2 right-2 text-gray-500 hover:text-gray-700 text-lg"
-              onClick={closeLoginPopup}
-            >
-              &times;
-            </button>
-          </div>
-        </div>
-      )} */}
     </div>
   )
 }

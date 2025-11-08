@@ -114,14 +114,11 @@ const ProfileProducts = () => {
           </div>
         </div>
       </div>
-
-      {/* Product List heading */}
       <div className="mt-8 mb-4 flex items-center justify-between">
         <h2 className="text-2xl font-semibold text-gray-800">Published Ads</h2>
         <span className="text-sm text-gray-500">Showing {products.length} Ads</span>
       </div>
 
-      {/* Empty state */}
       {products.length === 0 ? (
         <div className="text-center py-24 text-gray-600">
           <p className="mb-4 text-lg">You haven’t uploaded any products yet.</p>
@@ -141,7 +138,6 @@ const ProfileProducts = () => {
                   className="w-full h-56 object-cover"
                 />
 
-                {/* Price badge */}
                 <div className="absolute top-3 right-3 bg-white/80 backdrop-blur rounded-md px-3 py-1 text-sm font-semibold text-blue-700">
                   Rs {p.price ? Number(p.price).toLocaleString() : "—"}
                 </div>

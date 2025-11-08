@@ -1,17 +1,3 @@
-// import React from 'react'
-// import Products from './Products.jsx'
-
-// const search = ''
-// const filter = { blocked: false }
-// export const Showproduct = () => {
-//   return (
-//     <div>
-      
-//     </div>
-//   )
-// }
-
-
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { API } from "../App";
@@ -58,8 +44,7 @@ const Showproduct = () => {
       const token = localStorage.getItem("token");
       await axios.delete(`${API}/api/user/product/${id}`, { headers: { Authorization: `Bearer ${token}` } });
       setProducts((prev) => {
-        const next = prev.filter((x) => x._id !== id);
-        // if deleted item was selected, update selected to first item or null
+        const next = prev.filter((x) => x._id !== id); 
         if (selected && selected._id === id) {
           setSelected(next[0] || null);
         }
@@ -93,7 +78,7 @@ const Showproduct = () => {
         </div>
       ) : (
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          {/* Left: thumbnails */}
+         
           <div className="lg:col-span-1">
             <div className="bg-white rounded-lg shadow p-4">
               <h2 className="font-semibold mb-3">Your Ads</h2>
@@ -115,7 +100,7 @@ const Showproduct = () => {
             </div>
           </div>
 
-          {/* Right: detail panel */}
+        
           <div className="lg:col-span-2">
             {selected ? (
               <div className="bg-white rounded-lg shadow p-6">

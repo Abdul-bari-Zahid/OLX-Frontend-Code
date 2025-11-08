@@ -44,7 +44,6 @@ const Headbar = () => {
     navigate('/');
   };
 
-  // Dropdown close on outside click
   React.useEffect(() => {
     function handleClickOutside(event) {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {

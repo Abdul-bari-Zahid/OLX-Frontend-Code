@@ -4,20 +4,17 @@ import Video from "../imagesHome/video.mp4"
 const Searchbar = ({ setSearch }) => {
   const [input, setInput] = useState('')
   const [city, setCity] = useState('')
-
-  // Update search on city change
+ 
   const handleCityChange = (e) => {
     setCity(e.target.value)
     setSearch((e.target.value ? e.target.value + ' ' : '') + input)
   }
-
-  // Update search on input change
+ 
   const handleInputChange = (e) => {
     setInput(e.target.value)
     setSearch((city ? city + ' ' : '') + e.target.value)
   }
-
-  // On form submit
+ 
   const handleSearch = (e) => {
     e.preventDefault()
     setSearch((city ? city + ' ' : '') + input)
