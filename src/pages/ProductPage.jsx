@@ -3,6 +3,8 @@ import { useParams, Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { API } from '../App';
 import { toast } from 'react-toastify';
+import { useDispatch } from 'react-redux';
+import ProductChat from '../component/ProductChat';
 
 const ProductDetails = () => {
   const { id } = useParams();
@@ -13,6 +15,7 @@ const ProductDetails = () => {
   const [error, setError] = useState(null);
   const [currentIndex, setCurrentIndex] = useState(0);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (!id) {
@@ -127,9 +130,8 @@ const ProductDetails = () => {
                   <button
                     key={idx}
                     onClick={() => setCurrentIndex(idx)}
-                    className={`rounded overflow-hidden border ${
-                      idx === currentIndex ? 'border-blue-600' : 'border-gray-200'
-                    }`}
+                    className={`rounded overflow-hidden border ${idx === currentIndex ? 'border-blue-600' : 'border-gray-200'
+                      }`}
                     style={{ width: 96, height: 64 }}
                   >
                     <img
@@ -157,7 +159,7 @@ const ProductDetails = () => {
               <div className="font-semibold text-gray-600">Ad ID:</div>
               <div className="font-semibold text-gray-600">Location:</div>
               <div>{product.category}</div>
-               <div>{product._id}</div>
+              <div>{product._id}</div>
               <div>{product.location}</div>
             </div>
           </div>
@@ -187,12 +189,18 @@ const ProductDetails = () => {
             >
               Show phone number
             </button>
-            <button
-              className="w-full border py-2 rounded font-semibold mb-2 hover:bg-gray-100"
-              onClick={() => navigate('/messages', { state: { product } })}
-            >
-              Chat
-            </button>
+            <div className="mt-6 border-t pt-4">
+              <ProductChat
+                productId={product._id || product.id}
+                productName={product.title}
+                sellerInfo={{
+                  _id: product.userId || product.user || product.PostedId || product.Posted || null,
+                  name: product.Posted || product.userName || product.posterName || 'Seller'
+                }}
+                isGlobal={false}
+                onClose={() => { }}
+              />
+            </div>
           </div>
         </div>
       </div>

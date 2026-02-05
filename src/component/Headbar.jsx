@@ -1,6 +1,6 @@
 
 
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import Logo from '../imagesHome/logo.png';
 import { Link, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
@@ -9,6 +9,7 @@ import { toast } from 'react-toastify';
 import Modal from './Modal';
 import Register from './Register';
 import Login from './Login';
+import { socket } from '../socket.js';
 
 const Headbar = () => {
   const [isModelOpen, setIsModelOpen] = useState(false);
@@ -16,6 +17,8 @@ const Headbar = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
   const user = useSelector((state) => state.user.user);
+  const [unreadCount, setUnreadCount] = useState(0);
+  const [lastNotification, setLastNotification] = useState(null);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -56,6 +59,46 @@ const Headbar = () => {
     };
   }, []);
 
+  // Identify the connected user to the socket server and listen for notifications
+  useEffect(() => {
+    if (!user) return;
+    try {
+      // Wait until socket is connected, then identify the user so server can notify them
+      const emitIdentify = () => {
+        try {
+          const userId = user._id || user.id || user.uid || user.userId || user?.userId;
+          console.log('Headbar: socket connected?', socket.connected, 'identifying user:', userId, 'user object:', user);
+          socket.emit('identify', userId);
+        } catch (err) {
+          console.error('Headbar identify emit error', err);
+        }
+      };
+
+      if (socket.connected) {
+        emitIdentify();
+      } else {
+        socket.once('connect', emitIdentify);
+      }
+
+      const handleNewMessage = (payload) => {
+        // payload: { productId, senderId, senderName, text, messageId }
+        console.log('Headbar received new-message-notification', payload);
+        setUnreadCount((c) => c + 1);
+        setLastNotification(payload);
+        toast.info(`New message from ${payload.senderName}: ${payload.text}`, { autoClose: 3000 });
+      };
+
+      socket.on('new-message-notification', handleNewMessage);
+
+      return () => {
+        socket.off('new-message-notification', handleNewMessage);
+        socket.off('connect', emitIdentify);
+      };
+    } catch (err) {
+      console.error('socket identify error', err);
+    }
+  }, [user]);
+
   return (
     <header className="bg-white shadow-sm">
       <div className="max-w-6xl mx-auto px-4 py-3 flex items-center gap-4">
@@ -88,6 +131,34 @@ const Headbar = () => {
         <div className="flex items-center gap-3">
           <Link to="/shop" className="hidden md:inline text-gray-700 hover:text-gray-900 text-sm">Shop</Link>
           <button onClick={handleSellClick} className="bg-yellow-400 hover:bg-yellow-500 text-gray-900 px-3 py-2 rounded-md font-semibold text-sm">Sell</button>
+
+          {/* Notification bell */}
+          {user && (
+            <button
+                onClick={() => {
+                  setUnreadCount(0);
+                  // If we have a last notification, pass it into the messages page so it can open the right chat
+                  if (lastNotification && lastNotification.productId) {
+                    navigate('/messages', { state: { productId: lastNotification.productId, senderId: lastNotification.senderId, senderName: lastNotification.senderName } });
+                    // clear lastNotification after navigating
+                    setLastNotification(null);
+                  } else {
+                    navigate('/messages');
+                  }
+                }}
+              className="relative hidden md:inline-flex items-center justify-center w-10 h-10 rounded-full hover:bg-gray-100"
+              title="Messages"
+            >
+              <svg className="w-5 h-5 text-gray-700" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6 6 0 10-12 0v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+              </svg>
+              {unreadCount > 0 && (
+                <span className="absolute top-0 right-0 inline-flex items-center justify-center px-1.5 py-0.5 text-xs font-bold leading-none text-white bg-red-600 rounded-full transform translate-x-1/2 -translate-y-1/2">
+                  {unreadCount}
+                </span>
+              )}
+            </button>
+          )}
 
           {!user ? (
             <>

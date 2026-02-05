@@ -81,7 +81,7 @@ const AddProduct = () => {
     try {
       setSubmitting(true);
       const token = user?.token || localStorage.getItem('token'); 
-      const base = (typeof API === 'string' && API) ? API : "https://olx-backend-code-w2v6.vercel.app";
+      const base = (typeof API === 'string' && API) ? API : "http://localhost:3000";
       const res = await axios.post(`${base}/api/user/product-multi`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
