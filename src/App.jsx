@@ -11,7 +11,6 @@ import Headbar from "./component/Headbar.jsx";
 import CategoryPage from "./pages/CategoryPage.jsx";
 import Shop from "./pages/Shop.jsx";
 import AddProduct from "./pages/AddProduct.jsx";
-import Message from "./pages/Massage.jsx";
 import Profile from "./pages/Profile.jsx";
 import Login from "./component/Login.jsx";
 import Register from "./component/Register.jsx";
@@ -22,8 +21,7 @@ import { socket } from "./socket";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Showproduct from "./component/Showproduct.jsx";
-import Massagees from './pages/Massagees.jsx';
-import Ma from './pages/ma.jsx';
+import Messages from './pages/Messages.jsx';
 import ProductChat from './component/ProductChat.jsx';
 
 export const API = "https://olx-backend-code.vercel.app";
@@ -72,7 +70,6 @@ function App() {
                 <Massagees />
             }
           /> */}
-        <Route path='/ma' element={<Ma />} />
         <Route
           path="/showproduct"
           element={
@@ -85,7 +82,7 @@ function App() {
           path="/messages"
           element={
             <PrivateRoute>
-              <Message />
+              <Messages />
             </PrivateRoute>
           }
         />
