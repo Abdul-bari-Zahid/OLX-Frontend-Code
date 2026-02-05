@@ -26,7 +26,7 @@ import Massagees from './pages/Massagees.jsx';
 import Ma from './pages/ma.jsx';
 import ProductChat from './component/ProductChat.jsx';
 
-export const API = "https://olx-backend-code.vercel.app/";
+export const API = "https://olx-backend-code.vercel.app";
 // export const API = "https://olx-backend-code-w2v6.vercel.app"
 
 function App() {
